@@ -69,12 +69,12 @@ class CountryCode {
   CountryCode localize(BuildContext context) {
     final nam = CountryLocalizations.of(context)?.translate(code) ?? name;
     return this
-      ..name = nam == null? name : removeDiacritics(nam);
+      ..name = nam == null? name : nam;
   }
 
   factory CountryCode.fromJson(Map<String, dynamic> json) {
     return CountryCode(
-      name: removeDiacritics(json['name']),
+      name: json['name'],
       code: json['code'],
       dialCode: json['dial_code'],
       flagUri: 'flags/${json['code'].toLowerCase()}.png',
