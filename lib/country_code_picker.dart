@@ -9,12 +9,12 @@ import 'src/country_code.dart';
 import 'src/country_codes.dart';
 import 'src/selection_dialog.dart';
 
+export 'src/bottom_sheet.dart';
+export 'src/constants.dart';
 export 'src/country_code.dart';
 export 'src/country_codes.dart';
 export 'src/country_localizations.dart';
 export 'src/selection_dialog.dart';
-export 'src/bottom_sheet.dart';
-export 'src/constants.dart';
 
 class CountryCodePicker extends StatefulWidget {
   final ValueChanged<CountryCode>? onChanged;
@@ -115,6 +115,9 @@ class CountryCodePicker extends StatefulWidget {
   ///Header Text Alignment
   final MainAxisAlignment headerAlignment;
 
+  /// having shadow on the dialog
+  final bool haveDialogShadow;
+
   const CountryCodePicker({
     this.onChanged,
     this.onInit,
@@ -130,6 +133,7 @@ class CountryCodePicker extends StatefulWidget {
     this.emptySearchBuilder,
     this.showOnlyCountryWhenClosed = false,
     this.alignLeft = false,
+    this.haveDialogShadow = true,
     this.showFlag = true,
     this.showFlagDialog,
     this.hideMainText = false,
@@ -326,6 +330,7 @@ class CountryCodePickerState extends State<CountryCodePicker> {
           child: SelectionDialog(
             elements,
             favoriteElements,
+            haveShadow: widget.haveDialogShadow,
             showCountryOnly: widget.showCountryOnly,
             emptySearchBuilder: widget.emptySearchBuilder,
             searchDecoration: widget.searchDecoration,
