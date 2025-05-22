@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:diacritic/diacritic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
@@ -68,8 +67,7 @@ class CountryCode {
 
   CountryCode localize(BuildContext context) {
     final nam = CountryLocalizations.of(context)?.translate(code) ?? name;
-    return this
-      ..name = nam == null? name : nam;
+    return this..name = nam ?? name;
   }
 
   factory CountryCode.fromJson(Map<String, dynamic> json) {

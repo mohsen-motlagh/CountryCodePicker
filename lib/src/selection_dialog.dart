@@ -7,6 +7,7 @@ import 'country_localizations.dart';
 class SelectionDialog extends StatefulWidget {
   final List<CountryCode> elements;
   final bool? showCountryOnly;
+  final bool haveShadow;
   final InputDecoration searchDecoration;
   final TextStyle? searchStyle;
   final TextStyle? textStyle;
@@ -50,8 +51,9 @@ class SelectionDialog extends StatefulWidget {
     InputDecoration searchDecoration = const InputDecoration(),
     this.searchStyle,
     this.textStyle,
-   required this.topBarPadding,
+    required this.topBarPadding,
     this.headerText,
+    this.haveShadow = true,
     this.boxDecoration,
     this.showFlag,
     this.flagDecoration,
@@ -64,7 +66,9 @@ class SelectionDialog extends StatefulWidget {
     this.closeIcon,
     this.dialogItemPadding = const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
     this.searchPadding = const EdgeInsets.symmetric(horizontal: 24),
-  })  : searchDecoration = searchDecoration.prefixIcon == null ? searchDecoration.copyWith(prefixIcon: const Icon(Icons.search)) : searchDecoration,
+  })  : searchDecoration = searchDecoration.prefixIcon == null
+            ? searchDecoration.copyWith(prefixIcon: const Icon(Icons.search))
+            : searchDecoration,
         super(key: key);
 
   @override
@@ -87,12 +91,13 @@ class _SelectionDialogState extends State<SelectionDialog> {
                 color: widget.backgroundColor ?? Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 boxShadow: [
-                  BoxShadow(
-                    color: widget.barrierColor ?? Colors.grey.withAlpha(255),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
-                  ),
+                  if (widget.haveShadow)
+                    BoxShadow(
+                      color: widget.barrierColor ?? Colors.grey.withAlpha(255),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
                 ],
               ),
           child: Column(
@@ -100,7 +105,7 @@ class _SelectionDialogState extends State<SelectionDialog> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding:!widget.hideHeaderText? widget.topBarPadding: EdgeInsets.zero,
+                padding: !widget.hideHeaderText ? widget.topBarPadding : EdgeInsets.zero,
                 child: Row(
                   mainAxisAlignment: widget.headerAlignment,
                   children: [
@@ -177,7 +182,8 @@ class _SelectionDialogState extends State<SelectionDialog> {
           if (widget.showFlag!)
             Flexible(
               child: Container(
-                margin: Directionality.of(context) == TextDirection.ltr    // Here Adding padding depending on the locale language direction
+                margin: Directionality.of(context) ==
+                        TextDirection.ltr // Here Adding padding depending on the locale language direction
                     ? const EdgeInsets.only(right: 16.0)
                     : const EdgeInsets.only(left: 16.0),
                 decoration: widget.flagDecoration,
@@ -221,7 +227,9 @@ class _SelectionDialogState extends State<SelectionDialog> {
   void _filterElements(String s) {
     s = s.toUpperCase();
     setState(() {
-      filteredElements = widget.elements.where((e) => e.code!.contains(s) || e.dialCode!.contains(s) || e.name!.toUpperCase().contains(s)).toList();
+      filteredElements = widget.elements
+          .where((e) => e.code!.contains(s) || e.dialCode!.contains(s) || e.name!.toUpperCase().contains(s))
+          .toList();
     });
   }
 
